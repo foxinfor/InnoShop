@@ -5,6 +5,15 @@ VisualStudioVersion = 17.14.36705.20 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.API", "UserService.API\UserService.API.csproj", "{C378A312-42F5-42C0-990E-4A36F1E4390A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.DAL", "UserService.DAL\UserService.DAL.csproj", "{EF22A12F-17F3-4033-A42C-47BC6550265F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.BLL", "UserService.BLL\UserService.BLL.csproj", "{C8DDA778-0E04-4980-A6FE-D058A3ACA3A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "git", "git", "{36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +24,14 @@ Global
 		{C378A312-42F5-42C0-990E-4A36F1E4390A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C378A312-42F5-42C0-990E-4A36F1E4390A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C378A312-42F5-42C0-990E-4A36F1E4390A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF22A12F-17F3-4033-A42C-47BC6550265F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF22A12F-17F3-4033-A42C-47BC6550265F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF22A12F-17F3-4033-A42C-47BC6550265F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF22A12F-17F3-4033-A42C-47BC6550265F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8DDA778-0E04-4980-A6FE-D058A3ACA3A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8DDA778-0E04-4980-A6FE-D058A3ACA3A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8DDA778-0E04-4980-A6FE-D058A3ACA3A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8DDA778-0E04-4980-A6FE-D058A3ACA3A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
