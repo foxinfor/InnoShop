@@ -1,6 +1,8 @@
 ﻿namespace UserService.Application.DTOs
 {
-    public record CreateUserDTO
-    {
-    }
+    public record CreateUserDTO(
+        string FirstName,
+        string LastName,
+        string Email
+    );
 }

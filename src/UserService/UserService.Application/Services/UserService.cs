@@ -1,5 +1,6 @@
 ﻿using UserService.Application.DTOs;
 using UserService.Application.Interfaces;
+using UserService.Domain.Entities;
 using UserService.Domain.Interfaces;
 
 namespace UserService.Application.Services
@@ -13,14 +14,16 @@ namespace UserService.Application.Services
             _repository = userRepository;
         }
 
-        public Task<UserDTO> CreateAsync(CreateUserDTO createUserDTO, CancellationToken cancellationToken)
+        public async Task<UserDTO> CreateAsync(CreateUserDTO createUserDTO, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var user = new User(createUserDTO.FirstName, createUserDTO.LastName, createUserDTO.Email);
+            var created = await _repository.AddAsync(user, cancellationToken);
+            return new UserDTO(created.Id, created.FirstName, created.LastName, created.Email, created.Role, false, false);
         }
 
-        public Task DeleteAsync(Guid id, CancellationToken cancellationToken)
+        public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _repository.DeleteAsync(id, cancellationToken);
         }
 
         public async Task<IEnumerable<UserDTO>> GetAllAsync(CancellationToken cancellationToken)
@@ -53,9 +56,11 @@ namespace UserService.Application.Services
         }
 
 
-        public Task UpdateAsync(Guid id, UpdateUserDTO updateUserDTO, CancellationToken cancellationToken)
+        public async Task UpdateAsync(Guid id, CreateUserDTO updateUserDTO, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var user = await _repository.GetByIdAsync(id, cancellationToken);
+            user.UpdateDetails(updateUserDTO.FirstName, updateUserDTO.LastName, updateUserDTO.Email);
+            await _repository.UpdateAsync(user);
         }
     }
 }

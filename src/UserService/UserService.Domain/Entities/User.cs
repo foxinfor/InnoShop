@@ -15,16 +15,28 @@
 
         public User() { }
 
-        public User(string firstName, string lastName, string email, string role)
+        public User(string firstName, string lastName, string email)
         {
             Id = Guid.NewGuid();
             FirstName = firstName;
             LastName = lastName;
             Email = email;
-            Role = role;
+            Role = "User";
             IsActivate = false;
             EmailConfirmed = false;
         }
+
+        public User(Guid id, string firstName, string lastName, string email)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            Role = "User";
+            IsActivate = false;
+            EmailConfirmed = false;
+        }
+
 
         public void Activate() => IsActivate = true;
 
@@ -45,6 +57,13 @@
         {
             RefreshToken = null;
             RefreshTokenExpiryTime = null;
+        }
+
+        public void UpdateDetails(string firstName, string lastName, string email)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
         }
     }
 }
