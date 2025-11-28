@@ -17,6 +17,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Domain", "src\UserService\UserService.Domain\UserService.Domain.csproj", "{30543835-56D4-8F5E-7660-EA13515AE40D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Infrastructure", "src\UserService\UserService.Infrastructure\UserService.Infrastructure.csproj", "{8786971E-5C8F-FC6D-22BF-A43BEC2F684A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C97A9EBD-E2CF-45E3-9187-47599BA937C4} = {C97A9EBD-E2CF-45E3-9187-47599BA937C4}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Presentation", "src\UserService\UserService.Presentation\UserService.Presentation.csproj", "{19CE643B-AD15-03FC-A617-4C64A00C8F84}"
 EndProject

@@ -1,4 +1,5 @@
-﻿using UserService.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using UserService.Domain.Entities;
 using UserService.Domain.Interfaces;
 using UserService.Infrastructure.Data;
 
@@ -13,29 +14,34 @@ namespace UserService.Infrastructure.Repositories
             _context = context;
         }
 
-        public Task<User> AddAsync(User user, CancellationToken cancellationToken = default)
+        public async Task<User> AddAsync(User user, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            await _context.Users.AddAsync(user, cancellationToken);
+            await _context.SaveChangesAsync(cancellationToken);
+            return user;
         }
 
-        public Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            var user = await GetByIdAsync(id, cancellationToken);
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _context.Users.ToListAsync(cancellationToken);
         }
 
-        public Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _context.Users.FindAsync(id, cancellationToken);
         }
 
-        public Task UpdateAsync(User user, CancellationToken cancellationToken = default)
+        public async Task UpdateAsync(User user, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync(cancellationToken);
         }
     }
 }
