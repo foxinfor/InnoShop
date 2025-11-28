@@ -1,4 +1,6 @@
-﻿namespace UserService.Domain.Entities
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace UserService.Domain.Entities
 {
     public class User
     {
@@ -13,26 +15,31 @@
         public string? RefreshToken { get; private set; }
         public DateTime? RefreshTokenExpiryTime { get; private set; }
 
+
+        private static readonly PasswordHasher<User> _hasher = new();
+
         public User() { }
 
-        public User(string firstName, string lastName, string email)
+        public User(string firstName, string lastName, string email, string password)
         {
             Id = Guid.NewGuid();
             FirstName = firstName;
             LastName = lastName;
             Email = email;
             Role = "User";
+            PasswordHash = _hasher.HashPassword(this,password);
             IsActivate = false;
             EmailConfirmed = false;
         }
 
-        public User(Guid id, string firstName, string lastName, string email)
+        public User(Guid id, string firstName, string lastName, string email, string password)
         {
             Id = id;
             FirstName = firstName;
             LastName = lastName;
             Email = email;
             Role = "User";
+            PasswordHash = password;
             IsActivate = false;
             EmailConfirmed = false;
         }

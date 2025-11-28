@@ -22,6 +22,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Infrastructure"
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Presentation", "src\UserService\UserService.Presentation\UserService.Presentation.csproj", "{19CE643B-AD15-03FC-A617-4C64A00C8F84}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C97A9EBD-E2CF-45E3-9187-47599BA937C4} = {C97A9EBD-E2CF-45E3-9187-47599BA937C4}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -16,9 +16,9 @@ namespace UserService.Application.Services
 
         public async Task<UserDTO> CreateAsync(CreateUserDTO createUserDTO, CancellationToken cancellationToken)
         {
-            var user = new User(createUserDTO.FirstName, createUserDTO.LastName, createUserDTO.Email);
+            var user = new User(createUserDTO.FirstName, createUserDTO.LastName, createUserDTO.Email, createUserDTO.Password);
             var created = await _repository.AddAsync(user, cancellationToken);
-            return new UserDTO(created.Id, created.FirstName, created.LastName, created.Email, created.Role, false, false);
+            return new UserDTO(created.Id, created.FirstName, created.LastName, created.Email, created.PasswordHash,created.Role, false, false);
         }
 
         public async Task DeleteAsync(Guid id, CancellationToken cancellationToken)
@@ -34,6 +34,7 @@ namespace UserService.Application.Services
                 u.FirstName,
                 u.LastName,
                 u.Email,
+                u.PasswordHash,
                 u.Role,
                 u.IsActivate,
                 u.EmailConfirmed
@@ -49,6 +50,7 @@ namespace UserService.Application.Services
                 user.FirstName,
                 user.LastName,
                 user.Email,
+                user.PasswordHash,
                 user.Role,
                 user.IsActivate,
                 user.EmailConfirmed
