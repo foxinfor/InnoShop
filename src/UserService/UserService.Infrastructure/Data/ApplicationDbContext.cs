@@ -11,12 +11,13 @@ namespace UserService.Infrastructure.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasKey(p => p.Id);
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        }
 
-            modelBuilder.Entity<User>().HasData(
-                new User(Guid.Parse("11111111-1111-1111-1111-111111111111"), "Test", "User1", "testuser1@example.com"),
-                new User(Guid.Parse("22222222-2222-2222-2222-222222222222"), "Demo", "User2", "testuser2@example.com")
-            );
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.EnableSensitiveDataLogging();
         }
     }
 }
