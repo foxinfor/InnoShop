@@ -25,6 +25,7 @@ namespace UserService.Infrastructure.Migrations
                     PasswordHash = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     IsActivate = table.Column<bool>(type: "bit", nullable: false),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    ConfirmationToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RefreshToken = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     RefreshTokenExpiryTime = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -35,11 +36,11 @@ namespace UserService.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Email", "EmailConfirmed", "FirstName", "IsActivate", "LastName", "PasswordHash", "RefreshToken", "RefreshTokenExpiryTime", "Role" },
+                columns: new[] { "Id", "ConfirmationToken", "Email", "EmailConfirmed", "FirstName", "IsActivate", "LastName", "PasswordHash", "RefreshToken", "RefreshTokenExpiryTime", "Role" },
                 values: new object[,]
                 {
-                    { new Guid("11111111-1111-1111-1111-111111111111"), "testuser1@example.com", false, "User1", false, "User1", "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w==", null, null, "User" },
-                    { new Guid("22222222-2222-2222-2222-222222222222"), "testuser2@example.com", false, "User2", false, "User2", "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w==", null, null, "User" }
+                    { new Guid("11111111-1111-1111-1111-111111111111"), null, "testuser1@example.com", false, "User1", false, "User1", "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w==", null, null, "User" },
+                    { new Guid("22222222-2222-2222-2222-222222222222"), null, "testuser2@example.com", false, "User2", false, "User2", "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w==", null, null, "User" }
                 });
         }
 

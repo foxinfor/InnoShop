@@ -9,5 +9,8 @@ namespace UserService.Application.Interfaces
         Task<UserDTO> CreateAsync(CreateUserDTO createUserDTO, CancellationToken cancellationToken);
         Task UpdateAsync(Guid id, CreateUserDTO updateUserDTO, CancellationToken cancellationToken);
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
+        Task<bool> ConfirmEmailAsync(string token, CancellationToken cancellationToken);
+        Task<(string Email, string? ConfirmationToken)?> FindEmailAndTokenAsync(string email, CancellationToken cancellationToken);
+
     }
 }

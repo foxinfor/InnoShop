@@ -56,13 +56,26 @@ namespace UserService.Application.Services
                 user.EmailConfirmed
             );
         }
-
-
         public async Task UpdateAsync(Guid id, CreateUserDTO updateUserDTO, CancellationToken cancellationToken)
         {
             var user = await _repository.GetByIdAsync(id, cancellationToken);
             user.UpdateDetails(updateUserDTO.FirstName, updateUserDTO.LastName, updateUserDTO.Email);
             await _repository.UpdateAsync(user);
+        }
+        public async Task<bool> ConfirmEmailAsync(string token, CancellationToken cancellationToken = default)
+        {
+            var user = await _repository.GetByConfirmationTokenAsync(token, cancellationToken);
+            if (user == null)
+                return false;
+
+            user.ConfirmEmail();
+
+            await _repository.UpdateAsync(user, cancellationToken);
+            return true;
+        }
+        public async Task<(string Email, string? ConfirmationToken)?> FindEmailAndTokenAsync(string email, CancellationToken cancellationToken)
+        {
+            return await _repository.FindEmailAndTokenAsync(email, cancellationToken);
         }
     }
 }

@@ -10,10 +10,12 @@ namespace UserService.Presentation.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
+        private readonly IEmailService _emailService;
         private readonly IUserService _userService;
         
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IEmailService emailService)
         {
+            _emailService = emailService;
             _userService = userService;
         }
 
@@ -51,6 +53,26 @@ namespace UserService.Presentation.Controllers
         {
             await _userService.DeleteAsync(id, cancellationToken);
             return NoContent();
+        }
+
+        [HttpGet("confirm")]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string token, CancellationToken cancellationToken)
+        {
+            var result = await _userService.ConfirmEmailAsync(token, cancellationToken);
+            if (!result)
+                return BadRequest("Неверный или просроченный токен.");
+            return Ok("Email успешно подтверждён!");
+        }
+
+        [HttpPost("resend-confirmation")]
+        public async Task<IActionResult> ResendConfirmation([FromBody] string email, CancellationToken cancellationToken)
+        {
+            var result = await _userService.FindEmailAndTokenAsync(email, cancellationToken);
+            if (result == null) return NotFound("Пользователь не найден.");
+
+            await _emailService.SendConfirmationEmailAsync(result.Value.Email, result.Value.ConfirmationToken!, cancellationToken);
+
+            return Ok("Письмо повторно отправлено.");
         }
 
     }

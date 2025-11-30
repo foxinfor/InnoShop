@@ -64,5 +64,20 @@ namespace UserService.Infrastructure.Repositories
                 .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken, cancellationToken);
         }
 
+        public async Task<User?> GetByConfirmationTokenAsync(string token, CancellationToken cancellationToken = default)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.ConfirmationToken == token, cancellationToken);
+        }
+
+        public async Task<(string Email, string? ConfirmationToken)?> FindEmailAndTokenAsync(string email, CancellationToken cancellationToken = default)
+        {
+            var user = await _context.Users
+                .Where(u => u.Email == email)
+                .Select(u => new { u.Email, u.ConfirmationToken })
+                .FirstOrDefaultAsync(cancellationToken);
+
+            if (user == null) return null;
+            return (user.Email, user.ConfirmationToken);
+        }
     }
 }

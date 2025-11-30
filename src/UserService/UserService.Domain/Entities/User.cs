@@ -12,9 +12,9 @@ namespace UserService.Domain.Entities
         public string PasswordHash { get; private set; }
         public bool IsActivate { get; private set; }
         public bool EmailConfirmed { get; private set; }
+        public string? ConfirmationToken { get; private set; }
         public string? RefreshToken { get; private set; }
         public DateTime? RefreshTokenExpiryTime { get; private set; }
-
 
         private static readonly PasswordHasher<User> _hasher = new();
 
@@ -30,6 +30,7 @@ namespace UserService.Domain.Entities
             PasswordHash = _hasher.HashPassword(this,password);
             IsActivate = false;
             EmailConfirmed = false;
+            ConfirmationToken = Guid.NewGuid().ToString();
         }
 
         public User(Guid id, string firstName, string lastName, string email, string password)
@@ -47,7 +48,17 @@ namespace UserService.Domain.Entities
 
         public void Activate() => IsActivate = true;
 
-        public void MailConfirmation() => EmailConfirmed = true;
+
+        public void SetConfirmationToken(string token, DateTime expiry)
+        {
+            ConfirmationToken = token;
+        }
+
+        public void ConfirmEmail()
+        {
+            EmailConfirmed = true;
+            ConfirmationToken = null;
+        }
 
         public void SetPassword(string passwordHash)
         {
