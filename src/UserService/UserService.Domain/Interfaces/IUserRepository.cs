@@ -9,5 +9,6 @@ namespace UserService.Domain.Interfaces
         Task<User> AddAsync(User user, CancellationToken cancellationToken = default);
         Task UpdateAsync(User user, CancellationToken cancellationToken = default);
         Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<User> FindByEmailAsync(string? email, CancellationToken cancellationToken = default);
     }
 }

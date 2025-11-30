@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace UserService.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,8 +38,8 @@ namespace UserService.Infrastructure.Migrations
                 columns: new[] { "Id", "Email", "EmailConfirmed", "FirstName", "IsActivate", "LastName", "PasswordHash", "RefreshToken", "RefreshTokenExpiryTime", "Role" },
                 values: new object[,]
                 {
-                    { new Guid("11111111-1111-1111-1111-111111111111"), "testuser1@example.com", false, "User1", false, "User1", "12345", null, null, "User" },
-                    { new Guid("22222222-2222-2222-2222-222222222222"), "testuser2@example.com", false, "User2", false, "User2", "12345", null, null, "User" }
+                    { new Guid("11111111-1111-1111-1111-111111111111"), "testuser1@example.com", false, "User1", false, "User1", "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w==", null, null, "User" },
+                    { new Guid("22222222-2222-2222-2222-222222222222"), "testuser2@example.com", false, "User2", false, "User2", "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w==", null, null, "User" }
                 });
         }
 

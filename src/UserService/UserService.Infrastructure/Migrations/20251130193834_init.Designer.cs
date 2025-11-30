@@ -12,8 +12,8 @@ using UserService.Infrastructure.Data;
 namespace UserService.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251128095008_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20251130193834_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -81,7 +81,7 @@ namespace UserService.Infrastructure.Migrations
                             FirstName = "User1",
                             IsActivate = false,
                             LastName = "User1",
-                            PasswordHash = "12345",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w==",
                             Role = "User"
                         },
                         new
@@ -92,7 +92,7 @@ namespace UserService.Infrastructure.Migrations
                             FirstName = "User2",
                             IsActivate = false,
                             LastName = "User2",
-                            PasswordHash = "12345",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w==",
                             Role = "User"
                         });
                 });

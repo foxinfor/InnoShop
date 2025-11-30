@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using UserService.Domain.Entities;
 using UserService.Domain.Interfaces;
 using UserService.Infrastructure.Data;
@@ -26,6 +27,11 @@ namespace UserService.Infrastructure.Repositories
             var user = await GetByIdAsync(id, cancellationToken);
             _context.Users.Remove(user);
             await _context.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<User> FindByEmailAsync(string? email, CancellationToken cancellationToken = default)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
         }
 
         public async Task<IEnumerable<User>> GetAllAsync(CancellationToken cancellationToken = default)

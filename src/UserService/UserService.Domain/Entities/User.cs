@@ -72,5 +72,16 @@ namespace UserService.Domain.Entities
             LastName = lastName;
             Email = email;
         }
+
+        public IList<string> GetRoles()
+        {
+            return new List<string> { Role };
+        }
+
+        public bool CheckPassword(string password)
+        {
+            var result = _hasher.VerifyHashedPassword(this, PasswordHash, password);
+            return result == PasswordVerificationResult.Success;
+        }
     }
 }
