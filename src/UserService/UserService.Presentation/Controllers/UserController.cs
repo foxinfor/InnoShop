@@ -75,5 +75,15 @@ namespace UserService.Presentation.Controllers
             return Ok("Письмо повторно отправлено.");
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpPost("set-activation")]
+        public async Task<IActionResult> SetActivation([FromQuery] string email, [FromQuery] bool isActive, CancellationToken cancellationToken)
+        {
+            var success = await _userService.SetActivationStatusAsync(email, isActive, cancellationToken);
+            if (!success) return NotFound("Пользователь не найден.");
+            return Ok(isActive ? "Пользователь активирован." : "Пользователь деактивирован.");
+        }
+
+
     }
 }
