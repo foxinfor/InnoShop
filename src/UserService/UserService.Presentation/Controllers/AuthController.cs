@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Application.DTOs;
 using UserService.Application.Interfaces;
@@ -24,6 +25,11 @@ namespace UserService.Presentation.Controllers
             return Ok(result);
         }
 
-
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenRequest request, CancellationToken cancellationToken = default)
+        {
+            var result = await _authService.RefreshTokenAsync(request, cancellationToken);
+            return Ok(result);
+        }
     }
 }

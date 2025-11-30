@@ -1,4 +1,5 @@
-﻿using UserService.Domain.Entities;
+﻿using System.Security.Claims;
+using UserService.Domain.Entities;
 
 namespace UserService.Domain.Interfaces
 {
@@ -10,5 +11,8 @@ namespace UserService.Domain.Interfaces
         Task UpdateAsync(User user, CancellationToken cancellationToken = default);
         Task DeleteAsync(Guid id, CancellationToken cancellationToken = default);
         Task<User> FindByEmailAsync(string? email, CancellationToken cancellationToken = default);
+        Task<User?> GetUserAsync(ClaimsPrincipal principal);
+
+        Task<User?> GetByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken = default);
     }
 }

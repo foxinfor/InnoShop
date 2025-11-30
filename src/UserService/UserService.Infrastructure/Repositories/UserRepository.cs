@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using UserService.Domain.Entities;
 using UserService.Domain.Interfaces;
 using UserService.Infrastructure.Data;
@@ -44,10 +44,25 @@ namespace UserService.Infrastructure.Repositories
             return await _context.Users.FindAsync(id, cancellationToken);
         }
 
+        public async Task<User?> GetUserAsync(ClaimsPrincipal principal)
+        {
+            var userId = Guid.Parse(principal.FindFirst(ClaimTypes.NameIdentifier).Value);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        }
+
+
         public async Task UpdateAsync(User user, CancellationToken cancellationToken = default)
         {
             _context.Users.Update(user);
             await _context.SaveChangesAsync(cancellationToken);
         }
+
+
+        public async Task<User?> GetByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken = default)
+        {
+            return await _context.Users
+                .FirstOrDefaultAsync(u => u.RefreshToken == refreshToken, cancellationToken);
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using UserService.Application.DTOs;
 using UserService.Application.Interfaces;
@@ -56,19 +57,27 @@ namespace UserService.Application.Services
             return response;
         }
 
-        public Task LogoutAsync(ClaimsPrincipal principal, CancellationToken cancellationToken = default)
+        public async Task<AuthResponseDTO> RefreshTokenAsync(RefreshTokenRequest request, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
-        }
+            var user = await _userRepository.GetByRefreshTokenAsync(request.RefreshToken, cancellationToken);
 
-        public Task<AuthResponseDTO> RefreshTokenAsync(RefreshTokenRequest request, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
-        }
+            if (user == null || user.RefreshTokenExpiryTime <= DateTime.UtcNow)
+            {
+                return new AuthResponseDTO
+                {
+                    ErrorMessage = "Токен обновления недействителен."
+                };
+            }
 
-        public Task<RegistrationResponseDTO> RegisterAsync(LoginDTO registerDto, CancellationToken cancellationToken = default)
-        {
-            throw new NotImplementedException();
+            var roles = user.GetRoles();
+            var newAccessToken = _tokenService.GenerateJwtToken(user, roles);
+
+            return new AuthResponseDTO
+            {
+                IsAuthenticated = true,
+                Token = newAccessToken,
+                RefreshToken = request.RefreshToken
+            };
         }
     }
 }
