@@ -23,6 +23,7 @@ namespace UserService.Infrastructure.Migrations
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     Role = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     PasswordHash = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    PasswordResetToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActivate = table.Column<bool>(type: "bit", nullable: false),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),
                     ConfirmationToken = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -36,11 +37,11 @@ namespace UserService.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "ConfirmationToken", "Email", "EmailConfirmed", "FirstName", "IsActivate", "LastName", "PasswordHash", "RefreshToken", "RefreshTokenExpiryTime", "Role" },
+                columns: new[] { "Id", "ConfirmationToken", "Email", "EmailConfirmed", "FirstName", "IsActivate", "LastName", "PasswordHash", "PasswordResetToken", "RefreshToken", "RefreshTokenExpiryTime", "Role" },
                 values: new object[,]
                 {
-                    { new Guid("11111111-1111-1111-1111-111111111111"), null, "testuser1@example.com", false, "User1", false, "User1", "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w==", null, null, "User" },
-                    { new Guid("22222222-2222-2222-2222-222222222222"), null, "testuser2@example.com", false, "User2", false, "User2", "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w==", null, null, "User" }
+                    { new Guid("11111111-1111-1111-1111-111111111111"), null, "testuser1@example.com", false, "User1", false, "User1", "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w==", null, null, null, "User" },
+                    { new Guid("22222222-2222-2222-2222-222222222222"), null, "testuser2@example.com", false, "User2", false, "User2", "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w==", null, null, null, "User" }
                 });
         }
 

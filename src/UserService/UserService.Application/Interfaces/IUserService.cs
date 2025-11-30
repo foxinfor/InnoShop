@@ -11,6 +11,9 @@ namespace UserService.Application.Interfaces
         Task DeleteAsync(Guid id, CancellationToken cancellationToken);
         Task<bool> ConfirmEmailAsync(string token, CancellationToken cancellationToken);
         Task<(string Email, string? ConfirmationToken)?> FindEmailAndTokenAsync(string email, CancellationToken cancellationToken);
+        Task<(string Email, string? PasswordResetToken)?> GetEmailAndResetTokenAsync(string email, CancellationToken cancellationToken);
+        Task<bool> ResetPasswordAsync(string email, string token, string newPassword, CancellationToken cancellationToken);
 
+        Task<bool> SetActivationStatusAsync(string email, bool isActive, CancellationToken cancellationToken);
     }
 }

@@ -56,6 +56,9 @@ namespace UserService.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<string>("PasswordResetToken")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RefreshToken")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");

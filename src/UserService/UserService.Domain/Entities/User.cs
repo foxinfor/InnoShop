@@ -10,6 +10,7 @@ namespace UserService.Domain.Entities
         public string Email { get; private set; }
         public string Role { get; private set; }
         public string PasswordHash { get; private set; }
+        public string? PasswordResetToken { get; private set; }
         public bool IsActivate { get; private set; }
         public bool EmailConfirmed { get; private set; }
         public string? ConfirmationToken { get; private set; }
@@ -31,6 +32,7 @@ namespace UserService.Domain.Entities
             IsActivate = false;
             EmailConfirmed = false;
             ConfirmationToken = Guid.NewGuid().ToString();
+            PasswordResetToken = Guid.NewGuid().ToString();
         }
 
         public User(Guid id, string firstName, string lastName, string email, string password)
@@ -47,6 +49,7 @@ namespace UserService.Domain.Entities
 
 
         public void Activate() => IsActivate = true;
+        public void Deactivate() => IsActivate = false;
 
 
         public void SetConfirmationToken(string token, DateTime expiry)
@@ -62,7 +65,7 @@ namespace UserService.Domain.Entities
 
         public void SetPassword(string passwordHash)
         {
-            PasswordHash = passwordHash;
+            PasswordHash = _hasher.HashPassword(this, passwordHash);
         }
 
         public void SetRefreshToken(string token, DateTime expiry)
@@ -93,6 +96,11 @@ namespace UserService.Domain.Entities
         {
             var result = _hasher.VerifyHashedPassword(this, PasswordHash, password);
             return result == PasswordVerificationResult.Success;
+        }
+
+        public void ClearPasswordResetToken()
+        {
+            PasswordResetToken = null;
         }
     }
 }

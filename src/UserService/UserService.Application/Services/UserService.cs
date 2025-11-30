@@ -77,5 +77,44 @@ namespace UserService.Application.Services
         {
             return await _repository.FindEmailAndTokenAsync(email, cancellationToken);
         }
+
+
+
+
+
+        public async Task<(string Email, string? PasswordResetToken)?> GetEmailAndResetTokenAsync(string email, CancellationToken cancellationToken)
+        {
+            var user = await _repository.FindByEmailAsync(email, cancellationToken);
+            if (user == null) return null;
+            return (user.Email, user.PasswordResetToken);
+        }
+
+        public async Task<bool> ResetPasswordAsync(string email, string token, string newPassword, CancellationToken cancellationToken)
+        {
+            var user = await _repository.FindByEmailAsync(email, cancellationToken);
+            if (user == null || user.PasswordResetToken != token) return false;
+
+            user.SetPassword(newPassword);
+            user.ClearPasswordResetToken();
+
+            await _repository.UpdateAsync(user, cancellationToken);
+            return true;
+        }
+
+
+        public async Task<bool> SetActivationStatusAsync(string email, bool isActive, CancellationToken cancellationToken)
+        {
+            var user = await _repository.FindByEmailAsync(email, cancellationToken);
+            if (user == null) return false;
+
+            if (isActive)
+                user.Activate();
+            else
+                user.Deactivate();
+
+            await _repository.UpdateAsync(user, cancellationToken);
+            return true;
+        }
+
     }
 }
