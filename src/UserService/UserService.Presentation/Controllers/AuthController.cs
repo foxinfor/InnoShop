@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using UserService.Application.DTOs;
 using UserService.Application.Interfaces;
-using UserService.Domain.Entities;
 
 namespace UserService.Presentation.Controllers
 {
@@ -11,11 +8,15 @@ namespace UserService.Presentation.Controllers
     [ApiController]
     public class AuthController : Controller
     {
+        private readonly IEmailService _emailService;
+        private readonly IUserService _userService;
         private readonly IAuthService _authService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IEmailService emailService, IUserService userService)
         {
             _authService = authService;
+            _emailService = emailService;
+            _userService = userService;
         }
 
         [HttpPost("authenticate")]
@@ -30,6 +31,26 @@ namespace UserService.Presentation.Controllers
         {
             var result = await _authService.RefreshTokenAsync(request, cancellationToken);
             return Ok(result);
+        }
+
+
+
+        [HttpPost("request-password-reset")]
+        public async Task<IActionResult> RequestPasswordReset([FromBody] string email, CancellationToken cancellationToken)
+        {
+            var result = await _userService.GetEmailAndResetTokenAsync(email, cancellationToken);
+            if (result == null) return NotFound("Пользователь не найден.");
+
+            await _emailService.SendPasswordResetEmailAsync(result.Value.Email, result.Value.PasswordResetToken!, cancellationToken);
+            return Ok("Письмо с токеном восстановления отправлено.");
+        }
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword(string email, string token, string newPassword, CancellationToken cancellationToken)
+        {
+            var success = await _userService.ResetPasswordAsync(email, token, newPassword, cancellationToken);
+            if (!success) return BadRequest("Неверный токен или email.");
+            return Ok("Пароль успешно изменён.");
         }
     }
 }
