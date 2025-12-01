@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using UserService.Application.DTOs;
 using UserService.Application.Interfaces;
 
@@ -51,6 +52,25 @@ namespace UserService.Presentation.Controllers
             var success = await _userService.ResetPasswordAsync(email, token, newPassword, cancellationToken);
             if (!success) return BadRequest("Неверный токен или email.");
             return Ok("Пароль успешно изменён.");
+        }
+
+        [HttpPost("swagger-auth")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SwaggerAuth([FromForm] string username, [FromForm] string password, CancellationToken cancellationToken = default)
+        {
+            var loginDto = new LoginDTO { Email = username, Password = password };
+            var result = await _authService.AuthAsync(loginDto, cancellationToken);
+
+            if (!result.IsAuthenticated)
+                return Unauthorized(new { error = result.ErrorMessage });
+
+            return Ok(new
+            {
+                access_token = result.Token,
+                token_type = "bearer",
+                expires_in = 3600,
+                refresh_token = result.RefreshToken
+            });
         }
     }
 }

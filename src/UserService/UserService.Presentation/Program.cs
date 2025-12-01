@@ -109,7 +109,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-//app.UseMiddleware<UserService.Presentation.Middleware>();
+app.UseMiddleware<UserService.Presentation.Middleware>();
 app.UseDeveloperExceptionPage();
 
 app.UseAuthentication();
