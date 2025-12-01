@@ -42,11 +42,6 @@ namespace UserService.Infrastructure.Data.Configurations
                    .HasMaxLength(500);
 
             builder.Property(u => u.RefreshTokenExpiryTime);
-
-            builder.HasData(
-                new User(Guid.Parse("11111111-1111-1111-1111-111111111111"), "User1", "User1", "testuser1@example.com", "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w=="),
-                new User(Guid.Parse("22222222-2222-2222-2222-222222222222"), "User2", "User2", "testuser2@example.com", "AQAAAAIAAYagAAAAEFgLcjo7tuE+Z0oc/elNfciOM5oGMW5pLL5Z/qJsFih8G/RP39zMUqWIq5ol+kPy4w==")
-            );
         }
     }
 }

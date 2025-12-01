@@ -35,6 +35,7 @@ namespace UserService.Presentation.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<ActionResult<UserDTO>> Create(CreateUserDTO userDTO, CancellationToken cancellationToken = default)
         {
             var user = await _userService.CreateAsync(userDTO, cancellationToken);
@@ -96,7 +97,5 @@ namespace UserService.Presentation.Controllers
 
             return Ok(isActive ? "Пользователь активирован." : "Пользователь деактивирован.");
         }
-
-
     }
 }
