@@ -78,10 +78,6 @@ namespace UserService.Application.Services
             return await _repository.FindEmailAndTokenAsync(email, cancellationToken);
         }
 
-
-
-
-
         public async Task<(string Email, string? PasswordResetToken)?> GetEmailAndResetTokenAsync(string email, CancellationToken cancellationToken)
         {
             var user = await _repository.FindByEmailAsync(email, cancellationToken);

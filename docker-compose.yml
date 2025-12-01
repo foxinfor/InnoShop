@@ -73,6 +73,7 @@ services:
       product_db:
         condition: service_healthy
 
+
 volumes:
   postgres_user_data:
   postgres_product_data:

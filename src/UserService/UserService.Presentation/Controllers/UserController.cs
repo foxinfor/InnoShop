@@ -87,7 +87,7 @@ namespace UserService.Presentation.Controllers
             if (user == null) return NotFound("Пользователь не найден.");
 
             using var client = new HttpClient();
-            var url = $"https://localhost:7231/api/products/set-availability/{user.Id}?isAvailable={isActive}";
+            var url = $"https://localhost:5233/api/products/set-availability/{user.Id}?isAvailable={isActive}";
             var response = await client.PutAsync(url, null, cancellationToken);
 
             if (!response.IsSuccessStatusCode)
