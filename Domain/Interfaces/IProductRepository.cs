@@ -8,6 +8,8 @@ namespace Domain.Interfaces
         Task AddAsync(Product product, CancellationToken ct);
         Task UpdateAsync(Product product, CancellationToken ct);
         Task DeleteAsync(Product product, CancellationToken ct);
+        Task<IReadOnlyList<Product>> GetAllByOwnerAsync(Guid ownerUserId, CancellationToken ct);
+
 
         Task<(IReadOnlyList<Product> Items, int Total)> SearchAsync(ProductQuery query, Guid ownerUserId, CancellationToken ct);
     }

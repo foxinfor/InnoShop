@@ -116,5 +116,21 @@ namespace UserService.Application.Services
             return true;
         }
 
+        public async Task<UserDTO?> GetByEmailAsync(string email, CancellationToken ct)
+        {
+            var user = await _repository.FindByEmailAsync(email, ct);
+            if (user == null) return null;
+
+            return new UserDTO(
+                user.Id,
+                user.FirstName,
+                user.LastName,
+                user.Email,
+                user.PasswordHash,
+                user.Role,
+                user.IsActivate,
+                user.EmailConfirmed
+            );
+        }
     }
 }

@@ -46,6 +46,18 @@ namespace Application.Services
             return new PagedResult<ProductDTO>(items.Select(Map).ToList(), total, q.Page, q.PageSize);
         }
 
+        public async Task SetAvailabilityForUserProductsAsync(Guid ownerUserId, bool isAvailable, CancellationToken ct = default)
+        {
+            var products = await _repo.GetAllByOwnerAsync(ownerUserId, ct);
+
+            foreach (var product in products)
+            {
+                product.SetAvailability(isAvailable);
+                await _repo.UpdateAsync(product, ct);
+            }
+        }
+
+
         private static ProductDTO Map(Product p) =>
             new(p.Id, p.Name, p.Description, p.Price, p.IsAvailable, p.OwnerUserId, p.CreatedAt, p.UpdatedAt);
     }

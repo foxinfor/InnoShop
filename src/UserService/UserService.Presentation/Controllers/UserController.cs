@@ -81,6 +81,19 @@ namespace UserService.Presentation.Controllers
         {
             var success = await _userService.SetActivationStatusAsync(email, isActive, cancellationToken);
             if (!success) return NotFound("Пользователь не найден.");
+
+            var user = await _userService.GetByEmailAsync(email, cancellationToken);
+            if (user == null) return NotFound("Пользователь не найден.");
+
+            using var client = new HttpClient();
+            var url = $"https://localhost:7231/api/products/set-availability/{user.Id}?isAvailable={isActive}";
+            var response = await client.PutAsync(url, null, cancellationToken);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return StatusCode((int)response.StatusCode, "Ошибка при обновлении продуктов пользователя.");
+            }
+
             return Ok(isActive ? "Пользователь активирован." : "Пользователь деактивирован.");
         }
 

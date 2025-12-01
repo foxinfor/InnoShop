@@ -1,9 +1,10 @@
 ﻿using Application.DTOs;
+using Application.Extensions;
 using Application.Interfaces;
+using Application.Services;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Application.Extensions;
 
 namespace ProductService.Controllers
 {
@@ -48,6 +49,15 @@ namespace ProductService.Controllers
             var success = await _service.DeleteAsync(id, userId, ct);
             return success ? NoContent() : Forbid();
         }
+
+        [HttpPut("set-availability/{ownerUserId}")]
+        [ApiExplorerSettings(IgnoreApi = true)]
+        public async Task<IActionResult> SetAvailabilityForUserProducts(Guid ownerUserId, [FromQuery] bool isAvailable, CancellationToken ct)
+        {
+            await _service.SetAvailabilityForUserProductsAsync(ownerUserId, isAvailable, ct);
+            return Ok(new { message = $"Все продукты пользователя {ownerUserId} обновлены. Доступность = {isAvailable}" });
+        }
+
 
         [Authorize]
         [HttpGet]

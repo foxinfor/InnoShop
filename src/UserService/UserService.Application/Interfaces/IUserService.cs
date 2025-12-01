@@ -15,5 +15,6 @@ namespace UserService.Application.Interfaces
         Task<bool> ResetPasswordAsync(string email, string token, string newPassword, CancellationToken cancellationToken);
 
         Task<bool> SetActivationStatusAsync(string email, bool isActive, CancellationToken cancellationToken);
+        Task<UserDTO?> GetByEmailAsync(string email, CancellationToken ct);
     }
 }

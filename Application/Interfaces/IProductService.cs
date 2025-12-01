@@ -9,6 +9,8 @@ namespace Application.Interfaces
         Task<ProductDTO?> GetByIdAsync(Guid id, Guid ownerUserId, CancellationToken ct);
         Task<bool> UpdateAsync(Guid id, Guid ownerUserId, UpdateProductDTO dto, CancellationToken ct);
         Task<bool> DeleteAsync(Guid id, Guid ownerUserId, CancellationToken ct);
+        Task SetAvailabilityForUserProductsAsync(Guid ownerUserId, bool isAvailable, CancellationToken ct = default);
+
         Task<PagedResult<ProductDTO>> SearchAsync(ProductQuery query, Guid ownerUserId, CancellationToken ct);
     }
 

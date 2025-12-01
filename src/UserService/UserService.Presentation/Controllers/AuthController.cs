@@ -56,6 +56,7 @@ namespace UserService.Presentation.Controllers
 
         [HttpPost("swagger-auth")]
         [AllowAnonymous]
+        [ApiExplorerSettings(IgnoreApi = true)]
         public async Task<IActionResult> SwaggerAuth([FromForm] string username, [FromForm] string password, CancellationToken cancellationToken = default)
         {
             var loginDto = new LoginDTO { Email = username, Password = password };

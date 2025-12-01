@@ -32,5 +32,10 @@
             IsAvailable = isAvailable;
             UpdatedAt = DateTime.UtcNow;
         }
+
+        public void SetAvailability(bool isAvailable)
+        {
+            IsAvailable = isAvailable;
+        }
     }
 }

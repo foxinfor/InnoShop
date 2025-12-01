@@ -35,7 +35,7 @@ namespace Infrastructure.Repositories
         {
             var query = _db.Products.AsQueryable();
 
-            query = query.Where(p => p.OwnerUserId == ownerUserId);
+            query = query.Where(p => p.OwnerUserId == ownerUserId && p.IsAvailable);
 
             if (!string.IsNullOrWhiteSpace(q.Search))
             {
@@ -59,6 +59,13 @@ namespace Infrastructure.Repositories
             var total = await query.CountAsync(ct);
             var items = await query.Skip((q.Page - 1) * q.PageSize).Take(q.PageSize).ToListAsync(ct);
             return (items, total);
+        }
+
+        public async Task<IReadOnlyList<Product>> GetAllByOwnerAsync(Guid ownerUserId, CancellationToken ct)
+        {
+            return await _db.Products
+                .Where(p => p.OwnerUserId == ownerUserId)
+                .ToListAsync(ct);
         }
     }
 
