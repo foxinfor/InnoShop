@@ -17,16 +17,16 @@ namespace Application.Services
             return Map(product);
         }
 
-        public async Task<ProductDTO?> GetByIdAsync(Guid id, CancellationToken ct)
+        public async Task<ProductDTO?> GetByIdAsync(Guid id, Guid ownerUserId, CancellationToken ct)
         {
-            var p = await _repo.GetByIdAsync(id, ct);
+            var p = await _repo.GetByIdAsync(id, ownerUserId, ct);
             return p is null ? null : Map(p);
         }
 
         public async Task<bool> UpdateAsync(Guid id, Guid ownerUserId, UpdateProductDTO dto, CancellationToken ct)
         {
-            var p = await _repo.GetByIdAsync(id, ct);
-            if (p is null || p.OwnerUserId != ownerUserId) return false;
+            var p = await _repo.GetByIdAsync(id, ownerUserId, ct);
+            if (p is null) return false; 
             p.Update(dto.Name, dto.Description, dto.Price, dto.IsAvailable);
             await _repo.UpdateAsync(p, ct);
             return true;
@@ -34,15 +34,15 @@ namespace Application.Services
 
         public async Task<bool> DeleteAsync(Guid id, Guid ownerUserId, CancellationToken ct)
         {
-            var p = await _repo.GetByIdAsync(id, ct);
-            if (p is null || p.OwnerUserId != ownerUserId) return false;
+            var p = await _repo.GetByIdAsync(id, ownerUserId, ct);
+            if (p is null) return false;
             await _repo.DeleteAsync(p, ct);
             return true;
         }
 
-        public async Task<PagedResult<ProductDTO>> SearchAsync(ProductQuery q, CancellationToken ct)
+        public async Task<PagedResult<ProductDTO>> SearchAsync(ProductQuery q, Guid ownerUserId, CancellationToken ct)
         {
-            var (items, total) = await _repo.SearchAsync(q, ct);
+            var (items, total) = await _repo.SearchAsync(q, ownerUserId, ct);
             return new PagedResult<ProductDTO>(items.Select(Map).ToList(), total, q.Page, q.PageSize);
         }
 

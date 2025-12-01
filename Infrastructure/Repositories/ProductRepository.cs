@@ -10,8 +10,8 @@ namespace Infrastructure.Repositories
         private readonly ApplicationDbContext _db;
         public ProductRepository(ApplicationDbContext db) => _db = db;
 
-        public Task<Product?> GetByIdAsync(Guid id, CancellationToken ct)
-            => _db.Products.FirstOrDefaultAsync(p => p.Id == id, ct);
+        public Task<Product?> GetByIdAsync(Guid id, Guid ownerUserId, CancellationToken ct)
+            => _db.Products.FirstOrDefaultAsync(p => p.Id == id && p.OwnerUserId == ownerUserId, ct);
 
         public async Task AddAsync(Product product, CancellationToken ct)
         {
@@ -31,9 +31,11 @@ namespace Infrastructure.Repositories
             await _db.SaveChangesAsync(ct);
         }
 
-        public async Task<(IReadOnlyList<Product> Items, int Total)> SearchAsync(ProductQuery q, CancellationToken ct)
+        public async Task<(IReadOnlyList<Product> Items, int Total)> SearchAsync(ProductQuery q, Guid ownerUserId, CancellationToken ct)
         {
             var query = _db.Products.AsQueryable();
+
+            query = query.Where(p => p.OwnerUserId == ownerUserId);
 
             if (!string.IsNullOrWhiteSpace(q.Search))
             {

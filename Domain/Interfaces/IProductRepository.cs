@@ -4,12 +4,12 @@ namespace Domain.Interfaces
 {
     public interface IProductRepository
     {
-        Task<Product?> GetByIdAsync(Guid id, CancellationToken ct);
+        Task<Product?> GetByIdAsync(Guid id, Guid ownerUserId, CancellationToken ct);
         Task AddAsync(Product product, CancellationToken ct);
         Task UpdateAsync(Product product, CancellationToken ct);
         Task DeleteAsync(Product product, CancellationToken ct);
 
-        Task<(IReadOnlyList<Product> Items, int Total)> SearchAsync(ProductQuery query, CancellationToken ct);
+        Task<(IReadOnlyList<Product> Items, int Total)> SearchAsync(ProductQuery query, Guid ownerUserId, CancellationToken ct);
     }
 
     public record ProductQuery(

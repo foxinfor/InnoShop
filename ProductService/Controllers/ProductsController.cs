@@ -17,7 +17,8 @@ namespace ProductService.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id, CancellationToken ct)
         {
-            var product = await _service.GetByIdAsync(id, ct);
+            var userId = HttpContext.GetUserId();
+            var product = await _service.GetByIdAsync(id, userId, ct);
             return product is null ? NotFound() : Ok(product);
         }
 
@@ -48,15 +49,17 @@ namespace ProductService.Controllers
             return success ? NoContent() : Forbid();
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Search([FromQuery] string? search, [FromQuery] decimal? minPrice,
             [FromQuery] decimal? maxPrice, [FromQuery] bool? isAvailable, [FromQuery] DateTime? createdFrom,
             [FromQuery] DateTime? createdTo, [FromQuery] int page = 1, [FromQuery] int pageSize = 20,
             [FromQuery] string? sortBy = "CreatedAt", [FromQuery] bool desc = true, CancellationToken ct = default)
         {
+            var userId = HttpContext.GetUserId();
             var q = new ProductQuery(search, minPrice, maxPrice, isAvailable, createdFrom, createdTo,
                                      page, pageSize, sortBy, desc);
-            var result = await _service.SearchAsync(q, ct);
+            var result = await _service.SearchAsync(q, userId, ct);
             return Ok(result);
         }
     }
