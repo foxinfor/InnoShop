@@ -81,7 +81,19 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
+
+app.UseCors("AllowAll");
 
 using (var scope = app.Services.CreateScope())
 {
@@ -97,7 +109,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseMiddleware<UserService.Presentation.Middleware>();
+//app.UseMiddleware<UserService.Presentation.Middleware>();
+app.UseDeveloperExceptionPage();
 
 app.UseAuthentication();
 app.UseAuthorization();
