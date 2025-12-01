@@ -48,10 +48,9 @@ services:
     container_name: user_service_api
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_URLS: http://*:5195
-      ConnectionStrings__DefaultConnection: Host=user_db;Port=5432;Database=innoshop_users;Username=postgres;Password=postgres
+      ASPNETCORE_URLS: http://*:5233
     ports:
-      - "5195:5195"
+      - "5233:5233"
     networks:
       - app_network
     depends_on:
@@ -65,10 +64,9 @@ services:
     container_name: product_service_api
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ASPNETCORE_URLS: http://*:5126
-      ConnectionStrings__DefaultConnection: Host=product_db;Port=5432;Database=innoshop_products;Username=postgres;Password=postgres
+      ASPNETCORE_URLS: http://*:5179
     ports:
-      - "5126:5126"
+      - "5179:5179"
     networks:
       - app_network
     depends_on:
