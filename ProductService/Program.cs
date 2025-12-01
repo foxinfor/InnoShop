@@ -30,7 +30,7 @@ builder.Services.AddSwaggerGen(c =>
         {
             Password = new Microsoft.OpenApi.Models.OpenApiOAuthFlow
             {
-                TokenUrl = new Uri("https://localhost:5179/api/auth/swagger-auth"),
+                TokenUrl = new Uri("http://localhost:5233/api/auth/swagger-auth"),
                 Scopes = new Dictionary<string, string>
                 {
                     { "product.read", "Чтение продуктов" },
@@ -132,7 +132,7 @@ else
 
 
 app.UseHttpsRedirection();
-
+    
 
 app.UseAuthentication();
 app.UseAuthorization();
